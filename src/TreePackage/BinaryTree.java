@@ -2,7 +2,7 @@ package TreePackage;
 
 public class BinaryTree<T> implements BinaryTreeInterface<T>{
 	/************ INSTANCE VARIABLES ************/
-	private BinaryNode<T> root;
+	protected BinaryNode<T> root;
 	
 	/************ CONSTRUCTORS ************/
 	public BinaryTree() {
