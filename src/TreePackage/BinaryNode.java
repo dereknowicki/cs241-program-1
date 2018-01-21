@@ -5,10 +5,29 @@ public class BinaryNode<T> {
 	private BinaryNode<T> leftChild;
 	private BinaryNode<T> rightChild;
 	
+	public BinaryNode() {
+		this (null);
+	}
+	
+	public BinaryNode(T dataPortion) {
+		this (dataPortion, null, null);
+	}
+	
 	public BinaryNode(T dataPortion, BinaryNode<T> newLeftChild, BinaryNode<T> newRightChild) {
 		data = dataPortion;
 		leftChild = newLeftChild;
 		rightChild = newRightChild;
+	}
+	
+	public BinaryNode<T> copy(){
+		BinaryNode<T> newRoot = new BinaryNode<>(data);
+		if(leftChild != null) {
+			newRoot.setLeftChild(leftChild.copy());
+		}
+		if(rightChild != null) {
+			newRoot.setRightChild(rightChild.copy());
+		}
+		return newRoot;
 	}
 	
 	public T getData() {
