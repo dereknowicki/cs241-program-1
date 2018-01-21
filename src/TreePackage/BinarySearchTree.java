@@ -1,7 +1,7 @@
 package TreePackage;
 
 public class BinarySearchTree<T extends Comparable<? super T>> extends BinaryTree<T> implements SearchTreeInterface<T> {
-
+	/************ CONSTRUCTORS ************/
 	public BinarySearchTree() {
 		super();
 	}
@@ -11,14 +11,84 @@ public class BinarySearchTree<T extends Comparable<? super T>> extends BinaryTre
 		setRootNode(new BinaryNode<T>(rootEntry));
 	}
 	
-	public void setTree(T rootData) {
-		throw new UnsupportedOperationException();
+	
+	/************ MEMBER METHODS ************/
+	private T addEntry(BinaryNode<T> rootNode, T newEntry) {
+		assert rootNode != null;
+		T result = null;
+		int comparison = newEntry.compareTo(rootNode.getData());
+		
+		if(comparison == 0) {
+			result = rootNode.getData();
+			rootNode.setData(newEntry);
+		}else if (comparison < 0) {
+			if(rootNode.hasLeftChild()) {
+				result = addEntry(rootNode.getLeftChild(), newEntry);
+			} else {
+				rootNode.setLeftChild(new BinaryNode<>(newEntry));
+			}
+		} else {
+			assert comparison > 0;
+			if(rootNode.hasRightChild()) {
+				result = addEntry(rootNode.getRightChild(), newEntry);
+			} else {
+				rootNode.setRightChild(new BinaryNode<>(newEntry));
+			}
+		}
+		return result;
 	}
 	
-	public void setTree(T rootData, BinaryTreeInterface<T> leftTree, BinaryTreeInterface<T> rightTree) {
-		throw new UnsupportedOperationException();
+	private BinaryNode<T> removeEntry(BinaryNode<T> rootNode, T entry, ReturnObject oldEntry){
+		if(rootNode != null) {
+			T rootData = rootNode.getData();
+			int comparison = entry.compareTo(rootData);
+			if(comparison == 0) {
+				oldEntry.set(rootData);
+				rootNode = removeFromRoot(rootNode);
+			} else if(comparison < 0) {
+				BinaryNode<T> leftChild = rootNode.getLeftChild();
+				rootNode.setLeftChild(removeEntry(leftChild, entry, oldEntry));
+			} else {
+				BinaryNode<T> rightChild = rootNode.getRightChild();
+				rootNode.setRightChild(removeEntry(rightChild, entry, oldEntry));
+			}
+		}
+		return rootNode;
 	}
-
+	
+	private BinaryNode<T> removeFromRoot(BinaryNode<T> rootNode){
+		if(rootNode.hasLeftChild() && rootNode.hasRightChild()) {
+			BinaryNode<T> leftSubtreeRoot = rootNode.getLeftChild();
+			BinaryNode<T> largestNode = findLargest(leftSubtreeRoot);
+			rootNode.setData(largestNode.getData());
+			rootNode.setLeftChild(removeLargest(leftSubtreeRoot));
+		} else if(rootNode.hasRightChild()) {
+			rootNode = rootNode.getRightChild();
+		} else {
+			rootNode = rootNode.getLeftChild();
+		}
+		return rootNode;
+	}
+	
+	private BinaryNode<T> findLargest(BinaryNode<T> rootNode){
+		if(rootNode.hasRightChild()) {
+			rootNode = findLargest(rootNode.getRightChild());
+		}
+		return rootNode;
+	}
+	
+	private BinaryNode<T> removeLargest(BinaryNode<T> rootNode){
+		if(rootNode.hasRightChild()) {
+			BinaryNode<T> rightChild = rootNode.getRightChild();
+			rightChild = removeLargest(rightChild);
+			rootNode.setRightChild(rightChild);
+		} else {
+			rootNode = rootNode.getLeftChild();
+		}
+		return rootNode;
+	}
+	
+	/************ INTERFACE OVERRIDES ************/
 	@Override
 	public boolean contains(T entry) {
 		// TODO Auto-generated method stub
@@ -33,8 +103,13 @@ public class BinarySearchTree<T extends Comparable<? super T>> extends BinaryTre
 
 	@Override
 	public T add(T newEntry) {
-		// TODO Auto-generated method stub
-		return null;
+		T result = null;
+		if (isEmpty()) {
+			root = new BinaryNode<T>(newEntry);
+		} else {
+			result = addEntry(root, newEntry);
+		}
+		return result;
 	}
 
 	@Override
@@ -42,5 +117,51 @@ public class BinarySearchTree<T extends Comparable<? super T>> extends BinaryTre
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	/************ DISABLE BINARY TREE INTERFACE METHODS ************/
+	public void setTree(T rootData) {
+		throw new UnsupportedOperationException();
+	}
+	
+	public void setTree(T rootData, BinaryTreeInterface<T> leftTree, BinaryTreeInterface<T> rightTree) {
+		throw new UnsupportedOperationException();
+	}
+	
+	/************ INNER CLASSES ************/
+	class ReturnObject {
+		T data;
+		
+		public ReturnObject(){
+			data = null;
+		}
+		
+		public void set(T newData) {
+			data = newData;
+		}
+		
+		public T get() {
+			return data;
+		}
+		
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
