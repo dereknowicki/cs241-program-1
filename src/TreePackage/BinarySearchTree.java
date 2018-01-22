@@ -88,17 +88,30 @@ public class BinarySearchTree<T extends Comparable<? super T>> extends BinaryTre
 		return rootNode;
 	}
 	
+	private T findEntry(BinaryNode<T> rootNode, T entry) {
+		T result = null;
+		if(rootNode != null) {
+			T rootEntry = rootNode.getData();
+			if(entry.equals(rootEntry)) {
+				result = rootEntry;
+			} else if (entry.compareTo(rootEntry) < 0) {
+				result = findEntry(rootNode.getLeftChild(), entry);
+			} else {
+				result = findEntry(rootNode.getRightChild(), entry);
+			}
+		}
+		return result;
+	}
+	
 	/************ INTERFACE OVERRIDES ************/
 	@Override
 	public boolean contains(T entry) {
-		// TODO Auto-generated method stub
-		return false;
+		return getEntry(entry) != null;
 	}
 
 	@Override
 	public T getEntry(T entry) {
-		// TODO Auto-generated method stub
-		return null;
+		return findEntry(getRootNode(), entry);
 	}
 
 	@Override
@@ -114,8 +127,10 @@ public class BinarySearchTree<T extends Comparable<? super T>> extends BinaryTre
 
 	@Override
 	public T remove(T entry) {
-		// TODO Auto-generated method stub
-		return null;
+		ReturnObject oldEntry = new ReturnObject();
+		BinaryNode<T> newRoot = removeEntry(getRootNode(), entry, oldEntry);
+		setRootNode(newRoot);
+		return oldEntry.get();
 	}
 	
 	/************ DISABLE BINARY TREE INTERFACE METHODS ************/
