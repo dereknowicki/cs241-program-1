@@ -17,11 +17,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import TreePackage.BinarySearchTree;
+
 public class Main {
 	private static String [] command;
 	private static String numbers;
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static String [] arrOfStr;
+	private static BinarySearchTree<Integer> bst;
 
 	static void printCommandMenu() {
 		System.out.println("Please Enter a Command");
@@ -45,8 +48,9 @@ public class Main {
 		
 		arrOfStr = numbers.split(" ");
 		
-		for (String a : arrOfStr)
-			System.out.println(a);
+		for (String a : arrOfStr) {
+			bst.add(Integer.parseInt(a));
+		}
 	}
 	
 	static void getCommand() {
@@ -60,17 +64,21 @@ public class Main {
 	}
 	
 	static void handleInsertCommand() {
-		if(command.length > 1)
+		if(command.length > 1) {
 			System.out.println("I: Insert a value -> " + command[1]);
-		else
+			bst.add(Integer.parseInt(command[1]));
+		} else {
 			System.out.println("Too few arguments");
+		}
 	}
 	
 	static void handleDeleteCommand() {
-		if(command.length > 1)
+		if(command.length > 1) {
 			System.out.println("D: Delete a value -> " + command[1]);
-		else
+			bst.remove(Integer.parseInt(command[1]));
+		} else{
 			System.out.println("Too few arguments");
+		}
 	}
 	
 	static void handlePredecessorCommand() {
