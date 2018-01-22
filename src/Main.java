@@ -16,6 +16,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import TreePackage.BinarySearchTree;
 
@@ -80,17 +81,31 @@ public class Main {
 	}
 	
 	static void handlePredecessorCommand() {
-		if(command.length > 1)
-			System.out.println("P: Find predecessor -> " + command[1]);
-		else
+		if(command.length > 1) {
+			List<Integer> tmp = bst.inorderTraverse();
+			int index = tmp.indexOf(Integer.parseInt(command[1]));
+			if(index > 0) {
+				System.out.println(tmp.get(index - 1));
+			} else {
+				System.out.println("Predecessor of "+ command[1] + " not found");
+			}
+		} else {
 			System.out.println("Too few arguments");
+		}
 	}
 	
 	static void handleSuccessorCommand() {
-		if(command.length > 1)
-			System.out.println("S: Find successor -> " + command[1]);
-		else
+		if(command.length > 1) {
+			List<Integer> tmp = bst.inorderTraverse();
+			int index = tmp.indexOf(Integer.parseInt(command[1]));
+			if(index < tmp.size() - 1) {
+				System.out.println(tmp.get(index + 1));
+			} else {
+				System.out.println("Successor of "+ command[1] + " not found");
+			}
+		} else {
 			System.out.println("Too few arguments");
+		}
 	}
 	
 	public static void main(String[] args) {
