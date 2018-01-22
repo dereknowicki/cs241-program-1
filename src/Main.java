@@ -64,8 +64,8 @@ public class Main {
 	
 	static void handleInsertCommand() {
 		if(command.length > 1) {
-			System.out.println("I: Insert a value -> " + command[1]);
 			bst.add(Integer.parseInt(command[1]));
+			System.out.println(bst.inorderTraverse());
 		} else {
 			System.out.println("Too few arguments");
 		}
@@ -75,6 +75,7 @@ public class Main {
 		if(command.length > 1) {
 			System.out.println("D: Delete a value -> " + command[1]);
 			bst.remove(Integer.parseInt(command[1]));
+			System.out.println(bst.inorderTraverse());
 		} else{
 			System.out.println("Too few arguments");
 		}
