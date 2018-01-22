@@ -1,5 +1,8 @@
 package TreePackage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryTree<T> implements BinaryTreeInterface<T>{
 	/************ INSTANCE VARIABLES ************/
 	protected BinaryNode<T> root;
@@ -38,6 +41,20 @@ public class BinaryTree<T> implements BinaryTreeInterface<T>{
 		if((rightTree != null) && (rightTree != this)) {
 			rightTree.clear();
 		}
+	}
+	
+	public List<T> inorderTraverse() {
+		return inorderTraverse(root);
+	}
+	
+	private List<T> inorderTraverse(BinaryNode<T> node) {
+		List<T> inorder = new ArrayList<T>();
+		if(node != null) {
+			inorder.addAll(inorderTraverse(node.getLeftChild()));
+			inorder.add(node.getData());
+			inorder.addAll(inorderTraverse(node.getRightChild()));
+		}
+		return inorder;
 	}
 	
 	/************ PROTECTED MEMBER METHODS ************/

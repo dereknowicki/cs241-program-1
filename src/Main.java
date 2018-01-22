@@ -23,8 +23,7 @@ public class Main {
 	private static String [] command;
 	private static String numbers;
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	private static String [] arrOfStr;
-	private static BinarySearchTree<Integer> bst;
+	private static BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
 
 	static void printCommandMenu() {
 		System.out.println("Please Enter a Command");
@@ -43,14 +42,13 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println(numbers);
-		
-		arrOfStr = numbers.split(" ");
+		String [] arrOfStr = numbers.split(" ");
 		
 		for (String a : arrOfStr) {
 			bst.add(Integer.parseInt(a));
 		}
+		System.out.println();
+		System.out.println("In-order: "+bst.inorderTraverse());
 	}
 	
 	static void getCommand() {
